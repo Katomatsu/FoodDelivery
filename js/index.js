@@ -141,12 +141,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	// MENU WITH CLASSES
 
-	class Tab {
-		constructor(src, alt, title, text, price, selector, ...classes) {
+	class Card {
+		constructor(src, alt, title, descr, price, selector, ...classes) {
 			this.src = src;
 			this.alt = alt;
 			this.title = title;
-			this.text = text;
+			this.descr = descr;
 			this.price = price;
 			this.classes = classes;
 			this.parent = document.querySelector(selector);
@@ -158,7 +158,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			this.price = Math.floor(this.price * this.transfer);
 		}
 
-		creatTabs() {
+		createCards() {
 			const elem = document.createElement('div');
 			if (this.classes.length === 0) {
 				this.elem = 'menu__item';
@@ -170,7 +170,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			elem.innerHTML = `
 					<img src=${this.src} alt=${this.alt} />
 					<h3 class="menu__item-subtitle">${this.title}</h3>
-					<div class="menu__item-descr">${this.text}</div>
+					<div class="menu__item-descr">${this.descr}</div>
 					<div class="menu__item-divider"></div>
 					<div class="menu__item-price">
 						<div class="menu__item-cost">Цена:</div>
@@ -181,11 +181,46 @@ window.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	new Tab('img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 10, '.menu .container', 'menu__item').creatTabs();
+	const getResource = async (url) => {
+		const res = await fetch(url);
 
-	new Tab('img/tabs/elite.jpg', 'elite', 'Меню “Премиум”', 'B меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!', 14, '.menu .container', 'menu__item').creatTabs();
+		if (!res.ok) {
+			throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+		}
 
-	new Tab('img/tabs/post.jpg', 'post', 'Меню "Постное"', 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.', 21, '.menu .container', 'menu__item').creatTabs();
+		return await res.json();
+	};
+
+	getResource('http://localhost:3000/menu')
+		.then((data) => {
+			data.forEach(({img, altimg, title, descr, price}) => {
+				new Card(img, altimg, title, descr, price, '.menu .container').createCards();
+			});
+		});
+
+	// getResource('http://localhost:3000/menu')
+	// 	.then(data => createCard(data));
+
+	// function createCard(data) {
+	// 	data.forEach(({img, altimg, title, descr, price}) => {
+	// 		const elem = document.createElement('div');
+
+	// 		elem.classList.add('menu__item');
+
+	// 		elem.innerHTML = `
+	// 			<img src=${img} alt=${altimg} />
+	// 			<h3 class="menu__item-subtitle">${title}</h3>
+	// 			<div class="menu__item-descr">${descr}</div>
+	// 			<div class="menu__item-divider"></div>
+	// 			<div class="menu__item-price">
+	// 				<div class="menu__item-cost">Цена:</div>
+	// 				<div class="menu__item-total"><span>${price}</span> руб/день</div>
+	// 			</div>
+	// 		`;
+
+	// 		document.querySelector('.menu .container').append(elem);
+	// 	});
+	// }
 
 	// FORMS
 
@@ -197,7 +232,23 @@ window.addEventListener('DOMContentLoaded', () => {
 		failure: 'Что-то пошло не так...',
 	};
 
-	function postData(form) {
+	const postData = async (url, data) => {
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json',
+			},
+			body: data
+		});
+
+		return await res.json();
+	};
+
+	forms.forEach((item) => {
+		bindPostData(item);
+	});
+
+	function bindPostData(form) {
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();
 
@@ -211,19 +262,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 			const formData = new FormData(form);
 
-			const object = {};
-			formData.forEach(function (value, key) {
-				object[key] = value;
-			});
+			const json = JSON.stringify( Object.fromEntries(formData.entries()) );
 
-			fetch('server.php', {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json',
-				},
-				body: JSON.stringify(object),
-			})
-				.then((data) => data.text())
+			postData('http://localhost:3000/requests', json)
 				.then((data) => {
 					console.log(data);
 					showThanksModal(message.success);
@@ -239,9 +280,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		});
 	}
 
-	forms.forEach((item) => {
-		postData(item);
-	});
 
 	function showThanksModal(message) {
 		const prevModalDialog = document.querySelector('.modal__dialog');
