@@ -191,12 +191,21 @@ window.addEventListener('DOMContentLoaded', () => {
 		return await res.json();
 	};
 
-	getResource('http://localhost:3000/menu')
-		.then((data) => {
-			data.forEach(({img, altimg, title, descr, price}) => {
+	// getResource('http://localhost:3000/menu')
+	// 	.then((data) => {
+	// 		data.forEach(({img, altimg, title, descr, price}) => {
+	// 			new Card(img, altimg, title, descr, price, '.menu .container').createCards();
+	// 		});
+	// 	});
+
+
+	axios.get('http://localhost:3000/menu')
+		.then(data => {
+			data.data.forEach(({img, altimg, title, descr, price}) => {
 				new Card(img, altimg, title, descr, price, '.menu .container').createCards();
 			});
 		});
+	
 
 	// getResource('http://localhost:3000/menu')
 	// 	.then(data => createCard(data));
