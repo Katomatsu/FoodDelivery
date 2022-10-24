@@ -417,11 +417,15 @@ window.addEventListener('DOMContentLoaded', () => {
 		dots.push(dot);
 	}
 
+	function slicePx(str) {
+		return +str.replace(/\D/g, '');
+	}
+
 	next.addEventListener('click', () => {
-		if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+		if (offset == slicePx(width) * (slides.length - 1)) {
 			offset = 0;
 		} else {
-			offset += +width.slice(0, width.length - 2);
+			offset += slicePx(width);
 		}
 		slidesField.style.transform = `translateX(-${offset}px)`;
 
@@ -446,9 +450,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	prev.addEventListener('click', () => {
 		if (offset == 0) {
-			offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+			offset = slicePx(width) * (slides.length - 1);
 		} else {
-			offset -= +width.slice(0, width.length - 2);
+			offset -= slicePx(width);
 		}
 
 		if (i == 1) {
@@ -477,7 +481,7 @@ window.addEventListener('DOMContentLoaded', () => {
 			const slideTo = e.target.getAttribute('data-slide-to');
 
 			i = slideTo;
-			offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+			offset = slicePx(width) * (slideTo - 1);
 			slidesField.style.transform = `translateX(-${offset}px)`;
 
 			if (slides.length < 10) {
