@@ -316,55 +316,57 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	//SLIDER
 
-	const slides = document.querySelectorAll('.offer__slide'),
-		currElem = document.querySelector('#current'),
-		total = document.querySelector('#total'),
-		prev = document.querySelector('.offer__slider-prev'),
-		next = document.querySelector('.offer__slider-next');
-	let i = 0;
 
-	function hideSlides() {
-		slides.forEach(item => {
-			item.classList.add('hide');
-			item.classList.remove('show', 'fade');
-		});
-	}
+	// My slider
 
-	function showSlides(i=0) {
-		slides[i].classList.add('show', 'fade');
-		slides[i].classList.remove('hide');
-	}
+	// const slides = document.querySelectorAll('.offer__slide'),
+	// 	currElem = document.querySelector('#current'),
+	// 	total = document.querySelector('#total'),
+	// 	prev = document.querySelector('.offer__slider-prev'),
+	// 	next = document.querySelector('.offer__slider-next');
+	// let i = 0;
 
-	function checkSlidesNumber(i) {
-		currElem.innerHTML = `${i >= 9 ? i + 1 : `0${i + 1}`}`;
-		total.innerHTML = `${slides.length > 9 ? slides.length : `0${slides.length}`}`;
-	}
+	// showSlides();
 
-	function switchingSlides() {
-		next.addEventListener('click', () => {
-			i++;
-			if (i >= slides.length) {
-				i = 0;
-			}
-			hideSlides();
-			showSlides(i);
-			checkSlidesNumber(i);
-		});	
-	
-		prev.addEventListener('click', () => {
-			i--;
-			if (i < 0) {
-				i = slides.length - 1;
-			}
-			hideSlides();
-			showSlides(i);
-			checkSlidesNumber(i);
-		});
-	}
+	// if (slides.length < 10) {
+	// 	total.textContent = `0${slides.length}`;
+	// } else {
+	// 	total.textContent = slides.length;
+	// }
 
-	hideSlides();
-	showSlides();
-	switchingSlides();
-	checkSlidesNumber(i);
+	// function showSlides(i=0) {
+	// 	slides.forEach(item => {
+	// 		item.classList.add('hide');
+	// 		item.classList.remove('show', 'fade');
+	// 	});
+
+	// 	slides[i].classList.add('show', 'fade');
+	// 	slides[i].classList.remove('hide');
+
+	// 	if (slides.length < 10) {
+	// 		currElem.textContent = `0${i + 1}`;
+	// 	} else {
+	// 		currElem.textContent = i + 1;
+	// 	}
+	// }
+
+	// next.addEventListener('click', () => {
+	// 	i++;
+	// 	if (i >= slides.length) {
+	// 		i = 0;
+	// 	}
+	// 	showSlides(i);
+	// });	
+
+	// prev.addEventListener('click', () => {
+	// 	i--;
+	// 	if (i < 0) {
+	// 		i = slides.length - 1;
+	// 	}
+	// 	showSlides(i);
+	// });
+
+
+
 
 });
