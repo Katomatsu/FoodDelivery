@@ -1,66 +1,15 @@
-function slider() {
-
-    // My slider
-
-    // const slides = document.querySelectorAll('.offer__slide'),
-    // 	currElem = document.querySelector('#current'),
-    // 	total = document.querySelector('#total'),
-    // 	prev = document.querySelector('.offer__slider-prev'),
-    // 	next = document.querySelector('.offer__slider-next');
-    // let i = 1;
-
-    // showSlides();
-
-    // if (slides.length < 10) {
-    // 	total.textContent = `0${slides.length}`;
-    // } else {
-    // 	total.textContent = slides.length;
-    // }
-
-    // function showSlides() {
-    // 	slides.forEach(item => {
-    // 		item.classList.add('hide');
-    // 		item.classList.remove('show', 'fade');
-    // 	});
-
-    // 	slides[i - 1].classList.add('show', 'fade');
-    // 	slides[i - 1].classList.remove('hide');
-
-    // 	if (slides.length < 10) {
-    // 		currElem.textContent = `0${i}`;
-    // 	} else {
-    // 		currElem.textContent = i;
-    // 	}
-    // }
-
-    // next.addEventListener('click', () => {
-    // 	i++;
-    // 	if (i > slides.length) {
-    // 		i = 1;
-    // 	}
-    // 	showSlides(i);
-    // });
-
-    // prev.addEventListener('click', () => {
-    // 	i--;
-    // 	if (i < 1) {
-    // 		i = slides.length;
-    // 	}
-    // 	showSlides(i);
-    // });
-
-
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
 
     // slider that I made according to the course
 
-    const slides = document.querySelectorAll('.offer__slide'),
-        slider = document.querySelector('.offer__slider'),
-        currElem = document.querySelector('#current'),
-        total = document.querySelector('#total'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
+    const slides = document.querySelectorAll(slide),
+        slider = document.querySelector(container),
+        currElem = document.querySelector(currentCounter),
+        total = document.querySelector(totalCounter),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        slidesWrapper = document.querySelector(wrapper),
+        slidesField = document.querySelector(field),
         width = window.getComputedStyle(slidesWrapper).width;
     let i = 1;
     let offset = 0;
@@ -186,6 +135,56 @@ function slider() {
         });
     });
 
+
+        // My slider
+
+    // const slides = document.querySelectorAll('.offer__slide'),
+    // 	currElem = document.querySelector('#current'),
+    // 	total = document.querySelector('#total'),
+    // 	prev = document.querySelector('.offer__slider-prev'),
+    // 	next = document.querySelector('.offer__slider-next');
+    // let i = 1;
+
+    // showSlides();
+
+    // if (slides.length < 10) {
+    // 	total.textContent = `0${slides.length}`;
+    // } else {
+    // 	total.textContent = slides.length;
+    // }
+
+    // function showSlides() {
+    // 	slides.forEach(item => {
+    // 		item.classList.add('hide');
+    // 		item.classList.remove('show', 'fade');
+    // 	});
+
+    // 	slides[i - 1].classList.add('show', 'fade');
+    // 	slides[i - 1].classList.remove('hide');
+
+    // 	if (slides.length < 10) {
+    // 		currElem.textContent = `0${i}`;
+    // 	} else {
+    // 		currElem.textContent = i;
+    // 	}
+    // }
+
+    // next.addEventListener('click', () => {
+    // 	i++;
+    // 	if (i > slides.length) {
+    // 		i = 1;
+    // 	}
+    // 	showSlides(i);
+    // });
+
+    // prev.addEventListener('click', () => {
+    // 	i--;
+    // 	if (i < 1) {
+    // 		i = slides.length;
+    // 	}
+    // 	showSlides(i);
+    // });
+
 }
 
-module.exports = slider;
+export default slider;
